@@ -3,7 +3,7 @@ package kyutae.codetest.kcs.entity;
 import jakarta.persistence.*;
 
 @Entity
-@Table(name = "TRDAR_STOR_INFO")
+@Table(name = "TRDAR_STOR_DTL")
 public class TrdarStorDtl {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
