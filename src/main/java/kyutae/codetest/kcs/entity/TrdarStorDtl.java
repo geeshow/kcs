@@ -10,36 +10,36 @@ public class TrdarStorDtl {
     @Column(name = "ID")
     private Long id;
 
-    @Column(name = "STDR_YYQU_CD", length = 5, columnDefinition = "기준 년분기 코드")
+    @Column(name = "STDR_YYQU_CD", length = 5)
     private String stdrYyquCd;
 
     @ManyToOne
-    @JoinColumn(name = "TRDAR_CD", columnDefinition = "상권 코드")
+    @JoinColumn(name = "TRDAR_CD")
     private TrdarMst trdar;
 
     @ManyToOne
-    @JoinColumn(name = "SVC_INDUTY_CD", columnDefinition = "서비스 업종 코드")
+    @JoinColumn(name = "SVC_INDUTY_CD")
     private SvcIndutyMst svcInduty;
 
-    @Column(name = "STOR_CO", columnDefinition = "점포 수")
+    @Column(name = "STOR_CO")
     private Integer storCo;
 
-    @Column(name = "SIMILR_INDUTY_STOR_CO", columnDefinition = "유사 업종 점포 수")
+    @Column(name = "SIMILR_INDUTY_STOR_CO")
     private Integer similrIndutyStorCo;
 
-    @Column(name = "OPBIZ_RT", columnDefinition = "개업 율")
+    @Column(name = "OPBIZ_RT")
     private Integer opbizRt;
 
-    @Column(name = "OPBIZ_STOR_CO", columnDefinition = "개업 점포 수")
+    @Column(name = "OPBIZ_STOR_CO")
     private Integer opbizStorCo;
 
-    @Column(name = "CLSBIZ_RT", columnDefinition = "폐업 률")
+    @Column(name = "CLSBIZ_RT")
     private Integer clsbizRt;
 
-    @Column(name = "CLSBIZ_STOR_CO", columnDefinition = "폐업 점포 수")
+    @Column(name = "CLSBIZ_STOR_CO")
     private Integer clsbizStorCo;
 
-    @Column(name = "FRC_STOR_CO", columnDefinition = "프랜차이즈 점포 수")
+    @Column(name = "FRC_STOR_CO")
     private Integer frcStorCo;
 
     public TrdarStorDtl() {
