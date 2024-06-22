@@ -44,7 +44,7 @@ public class CsvFileLoader implements FileLoader {
                 allRecords.add(recordToMap(record));
             }
         }
-        System.out.println("Loaded file: " + filePath + " with " + allRecords.size() + " records.");
+        System.out.println("Importing file: " + filePath + " with " + allRecords.size() + " records.");
         return allRecords;
     }
 
