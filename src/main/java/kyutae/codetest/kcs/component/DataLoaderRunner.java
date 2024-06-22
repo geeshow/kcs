@@ -21,24 +21,28 @@ public class DataLoaderRunner {
     private final FileLoader fileLoader;
     private String dataPath;
     private String charSet;
+    private Boolean enable;
 
     public DataLoaderRunner(
             DataImportService dataImportService,
             FileLoader fileLoader,
             @Value("${kcs.data.path}")String dataPath,
-            @Value("${kcs.data.charset}")String charSet
+            @Value("${kcs.data.charset}")String charSet,
+            @Value("${kcs.data.load-enabled}")Boolean enable
     ) {
         this.dataImportService = dataImportService;
         this.fileLoader = fileLoader;
         this.dataPath = dataPath;
         this.charSet = charSet;
+        this.enable = enable;
     }
 
 
     @EventListener(ApplicationReadyEvent.class)
     @Transactional
     public void executeFileLoader() throws IOException {
-        executeFileLoader(dataPath, charSet);
+        if (enable)
+            executeFileLoader(dataPath, charSet);
     }
 
     @Transactional

@@ -44,9 +44,9 @@ public class DataImportService {
                 processTrdarMst(record, trdarMap, trdarSeMap);
                 processSvcIndutyMst(record, svcIndutyMap);
                 processTrdarStorDtl(record, trdarMap, svcIndutyMap);
-                if (++progressCount % 1000 == 0) {
-                    System.out.println("Progress: " + progressCount + " / " + allCount);
-                }
+
+                printProgress(progressCount, allCount);
+                ++progressCount;
             }
 
             System.out.println("Data import completed successfully.");
@@ -56,6 +56,14 @@ public class DataImportService {
         }
     }
 
+    private void printProgress(long progressCount, long allCount) {
+        int progress = (int) ((progressCount / (double) allCount) * 100);
+
+        int dashes = progress / 2;
+        int spaces = 50 - dashes;
+        String progressBar = "[" + String.format("%02d", progress) + "%]" + "-".repeat(dashes) + " ".repeat(spaces);
+        System.out.print("\r" + progressBar);
+    }
     private void processTrdarSeMst(Map<String, String> record, Map<String, TrdarSeMst> trdarSeMap) {
         String trdarSeCd = record.get("상권_구분_코드");
         if (!trdarSeMap.containsKey(trdarSeCd)) {
