@@ -6,10 +6,10 @@ import jakarta.persistence.*;
 @Table(name = "TRDAR_MST")
 public class TrdarMst {
     @Id
-    @Column(name = "TRDAR_CD", length = 7, columnDefinition = "상권 코드")
+    @Column(name = "TRDAR_CD", length = 7)
     private String trdarCd;
 
-    @Column(name = "TRDAR_CD_NM", length = 100, nullable = false, columnDefinition = "상권 코드 명")
+    @Column(name = "TRDAR_CD_NM", length = 100, nullable = false)
     private String trdarCdNm;
 
     @ManyToOne

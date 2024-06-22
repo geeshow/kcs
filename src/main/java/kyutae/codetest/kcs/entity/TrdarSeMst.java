@@ -9,10 +9,10 @@ import jakarta.persistence.Table;
 @Table(name = "TRDAR_SE")
 public class TrdarSeMst {
     @Id
-    @Column(name = "TRDAR_SE_CD", length = 1, columnDefinition = "상권 구분 코드")
+    @Column(name = "TRDAR_SE_CD", length = 1)
     private String trdarSeCd;
 
-    @Column(name = "TRDAR_SE_CD_NM", length = 50, nullable = false, columnDefinition = "상권 구분 코드 명")
+    @Column(name = "TRDAR_SE_CD_NM", length = 50, nullable = false)
     private String trdarSeCdNm;
 
     public TrdarSeMst() {
