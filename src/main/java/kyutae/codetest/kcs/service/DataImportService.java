@@ -45,8 +45,8 @@ public class DataImportService {
                 processSvcIndutyMst(record, svcIndutyMap);
                 processTrdarStorDtl(record, trdarMap, svcIndutyMap);
 
-                printProgress(progressCount, allCount);
                 ++progressCount;
+                printProgress(progressCount, allCount);
             }
 
             System.out.println("Data import completed successfully.");
