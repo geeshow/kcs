@@ -29,4 +29,5 @@ server:
 
 kcs:
   data:
-    path: data
+    path: "classpath:data/*.csv"
+    charset: EUC-KR
