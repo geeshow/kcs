@@ -1,7 +1,9 @@
 package kyutae.codetest.kcs.component;
 
 import kyutae.codetest.kcs.component.loader.FileLoader;
+import kyutae.codetest.kcs.component.loader.dto.LoaderSalesDto;
 import kyutae.codetest.kcs.component.loader.dto.LoaderTrdarDto;
+import kyutae.codetest.kcs.service.ImportSalesService;
 import kyutae.codetest.kcs.service.ImportTrdarService;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -28,6 +30,8 @@ class DataLoaderRunnerTest {
 
     @Mock
     private ImportTrdarService importTrdarService;
+    @Mock
+    private ImportSalesService importSalesService;
     @Mock
     private FileLoader fileLoader;
 
@@ -63,4 +67,24 @@ class DataLoaderRunnerTest {
         assertThrows(FileNotFoundException.class, () -> dataLoaderRunner.executeTrdarFileLoader(dataPath, "utf-8"));
         verify(importTrdarService, never()).importData(any());
     }
+
+
+    @Test
+    void executeSalesFileLoader_ShouldLoadAndImportDataSuccessfully() throws Exception {
+        // Given
+        String dataPath = "classpath:data/sales/*.csv";
+        List<LoaderSalesDto> records = new ArrayList<>();
+        records.add(new LoaderSalesDto());
+        ResourcePatternResolver resolver = new PathMatchingResourcePatternResolver();
+        Resource[] resources = resolver.getResources(dataPath);
+
+        when(fileLoader.loadFile(any(), eq(StandardCharsets.UTF_8), eq(LoaderSalesDto.class))).thenReturn(records);
+
+        // When
+        dataLoaderRunner.executeSalesFileLoader(dataPath, "utf-8");
+
+        // Then
+        verify(importSalesService, times(resources.length)).importData(records);
+    }
+
 }

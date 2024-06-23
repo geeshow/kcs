@@ -30,10 +30,10 @@ server:
 
 kcs:
   data:
-    load-enabled: false
+    load-enabled: true
     trdar:
       path: "classpath:data/trdar/*.csv"
       charset: EUC-KR
     trsel:
-      path: "classpath:data/trsel/*.csv"
+      path: "classpath:data/sales/*.csv"
       charset: EUC-KR

@@ -4,6 +4,7 @@ import kyutae.codetest.kcs.component.loader.FileLoader;
 import kyutae.codetest.kcs.component.loader.dto.LoaderInterface;
 import kyutae.codetest.kcs.component.loader.dto.LoaderSalesDto;
 import kyutae.codetest.kcs.component.loader.dto.LoaderTrdarDto;
+import kyutae.codetest.kcs.service.ImportSalesService;
 import kyutae.codetest.kcs.service.ImportTrdarService;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
@@ -23,6 +24,7 @@ import java.util.stream.Stream;
 public class DataLoaderRunner {
 
     private final ImportTrdarService importTrdarService;
+    private final ImportSalesService importSalesService;
     private final FileLoader fileLoader;
     private String trdarDataPath;
     private String trdarCharSet;
@@ -32,6 +34,7 @@ public class DataLoaderRunner {
 
     public DataLoaderRunner(
             ImportTrdarService importTrdarService,
+            ImportSalesService importSalesService,
             FileLoader fileLoader,
             @Value("${kcs.data.trdar.path}")String trdarDataPath,
             @Value("${kcs.data.trdar.charset}")String trdarCharSet,
@@ -40,6 +43,7 @@ public class DataLoaderRunner {
             @Value("${kcs.data.load-enabled}")Boolean enable
     ) {
         this.importTrdarService = importTrdarService;
+        this.importSalesService = importSalesService;
         this.fileLoader = fileLoader;
         this.trdarDataPath = trdarDataPath;
         this.trdarCharSet = trdarCharSet;
@@ -54,10 +58,10 @@ public class DataLoaderRunner {
         if (!enable) return;
 
         // 서울시 상권분석서비스(점포-상권) 데이터 로드
-        executeTrdarFileLoader(trdarDataPath, trdarCharSet);
+//        executeTrdarFileLoader(trdarDataPath, trdarCharSet);
 
         // 서울시 상권분석서비스(추정매출-서울시) 데이터 로드
-//        executeSalesFileLoader(trselDataPath, trselCharSet);
+        executeSalesFileLoader(trselDataPath, trselCharSet);
     }
 
     public void executeTrdarFileLoader(String dataPath, String charSet) throws IOException {
@@ -65,10 +69,10 @@ public class DataLoaderRunner {
         listOfResource.forEach(importTrdarService::importData);
     }
 
-//    public void executeSalesFileLoader(String dataPath, String charSet) throws IOException {
-//        Stream<List<LoaderSalesDto>> listOfResource = getListOfResource(dataPath, charSet, LoaderSalesDto.class);
-//        listOfResource.forEach(importTrdarService::importData);
-//    }
+    public void executeSalesFileLoader(String dataPath, String charSet) throws IOException {
+        Stream<List<LoaderSalesDto>> listOfResource = getListOfResource(dataPath, charSet, LoaderSalesDto.class);
+        listOfResource.forEach(importSalesService::importData);
+    }
 
     private <T extends LoaderInterface> Stream<List<T>> getListOfResource(String dataPath, String charSet, Class<T> clazz) throws IOException {
         ResourcePatternResolver resolver = new PathMatchingResourcePatternResolver();
