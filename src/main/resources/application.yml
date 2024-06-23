@@ -16,7 +16,7 @@ spring:
   jpa:
     open-in-view: false
     hibernate:
-      ddl-auto: create-drop
+      ddl-auto: update
     database-platform: org.hibernate.dialect.H2Dialect
     properties:
       hibernate:
@@ -30,7 +30,7 @@ server:
 
 kcs:
   data:
-    load-enabled: true
+    load-enabled: false
     trdar:
       path: "classpath:data/trdar/*.csv"
       charset: EUC-KR

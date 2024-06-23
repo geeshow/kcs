@@ -46,7 +46,7 @@ public class KcsTrdarController {
     @ApiResponse(responseCode = "200", description = "상권 조회",
             content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE, schema = @Schema(implementation = BestSalesResDto.class)))
     public ResponseEntity<BestSalesResDto> getBestSales(@Valid @RequestBody BestSalesReqDto bestSalesReqDto) {
-        BestSalesResDto response = new BestSalesResDto("3001491", "서비스업종");
-        return ResponseEntity.ok(response);
+        BestSalesResDto bestSalesResDto = kcsTrdarService.getBestSales(bestSalesReqDto);
+        return ResponseEntity.ok(bestSalesResDto);
     }
 }

@@ -55,7 +55,12 @@ public class DataLoaderRunner {
 
     @EventListener(ApplicationReadyEvent.class)
     public void executeTrdarFileLoader() throws IOException {
-        if (!enable) return;
+        if (!enable) {
+            System.out.println("Data load is disabled");
+            return;
+        }
+
+        System.out.println("Data load를 시작합니다.");
 
         // 서울시 상권분석서비스(추정매출-상권배후지) 데이터 로드
         executeSalesFileLoader(trselDataPath, trselCharSet);

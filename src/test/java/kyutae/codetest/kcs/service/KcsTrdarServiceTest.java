@@ -1,11 +1,10 @@
 // KcsTrdarServiceTest.java
 package kyutae.codetest.kcs.service;
 
-import kyutae.codetest.kcs.controller.dto.TopStorCountReqDto;
-import kyutae.codetest.kcs.controller.dto.TopStorCountResDto;
-import kyutae.codetest.kcs.controller.dto.TrdarRateReqDto;
-import kyutae.codetest.kcs.controller.dto.TrdarRateResDto;
+import kyutae.codetest.kcs.controller.dto.*;
+import kyutae.codetest.kcs.repository.querydsl.TrdarSalesDtlQueryRepository;
 import kyutae.codetest.kcs.repository.querydsl.TrdarStorDtlQueryRepository;
+import kyutae.codetest.kcs.repository.querydsl.dto.BestSalesDto;
 import kyutae.codetest.kcs.repository.querydsl.dto.SvcIndutyDto;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -28,7 +27,8 @@ class KcsTrdarServiceTest {
 
     @Mock
     private TrdarStorDtlQueryRepository trdarStorDtlQueryRepository;
-
+    @Mock
+    private TrdarSalesDtlQueryRepository trdarSalesDtlQueryRepository;
     @Test
     void getTrdarRate_shouldReturnTrdarRateResDto() {
         // given
@@ -90,5 +90,28 @@ class KcsTrdarServiceTest {
         assertThat(result.get(1).getTopStorCount().getSvcIndutyNm()).isEqualTo("중식음식점");
         assertThat(result.get(2).getRank()).isEqualTo(3);
         assertThat(result.get(2).getTopStorCount().getSvcIndutyNm()).isEqualTo("일식음식점");
+    }
+
+    @Test
+    void getBestSales_shouldReturnBestSalesResDto() {
+        // given
+        BestSalesReqDto reqDto = BestSalesReqDto.builder()
+                .stdrYyquCd("20231")
+                .svcIndutyCdNm("음식점")
+                .build();
+
+        BestSalesDto bestSalesDto = BestSalesDto.builder()
+                .trdarCd("1")
+                .build();
+
+        when(trdarSalesDtlQueryRepository.findBestSalesByStdrYyquCdAndSvcIndutyCdNm(anyString(), anyString()))
+                .thenReturn(bestSalesDto);
+
+        // when
+        BestSalesResDto result = kcsTrdarService.getBestSales(reqDto);
+
+        // then
+        assertThat(result).isNotNull();
+        assertThat(result.getTrdarCd()).isEqualTo("1");
     }
 }

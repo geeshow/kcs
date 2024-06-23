@@ -2,10 +2,7 @@
 package kyutae.codetest.kcs.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import kyutae.codetest.kcs.controller.dto.TopStorCountReqDto;
-import kyutae.codetest.kcs.controller.dto.TopStorCountResDto;
-import kyutae.codetest.kcs.controller.dto.TrdarRateReqDto;
-import kyutae.codetest.kcs.controller.dto.TrdarRateResDto;
+import kyutae.codetest.kcs.controller.dto.*;
 import kyutae.codetest.kcs.repository.querydsl.dto.SvcIndutyDto;
 import kyutae.codetest.kcs.service.KcsTrdarService;
 import org.junit.jupiter.api.Test;
@@ -100,5 +97,28 @@ class KcsTrdarControllerTest {
                 .andExpect(jsonPath("$[1].topStorCount.svcIndutyNm").value("중식음식점"))
                 .andExpect(jsonPath("$[2].rank").value(3))
                 .andExpect(jsonPath("$[2].topStorCount.svcIndutyNm").value("일식음식점"));
+    }
+
+    @Test
+    void getBestSales_shouldReturnBestSalesResDto() throws Exception {
+        // given
+        BestSalesReqDto reqDto = BestSalesReqDto.builder()
+                .stdrYyquCd("20231")
+                .svcIndutyCdNm("음식점")
+                .build();
+
+        BestSalesResDto resDto = BestSalesResDto.builder()
+                .trdarCd("1")
+                .build();
+
+        when(kcsTrdarService.getBestSales(any(BestSalesReqDto.class))).thenReturn(resDto);
+
+        // when & then
+        mockMvc.perform(post("/kcs/api/best-sales")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(reqDto)))
+                .andExpect(status().isOk())
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+                .andExpect(jsonPath("$.trdarCd").value("1"));
     }
 }

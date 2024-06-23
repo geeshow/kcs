@@ -1,10 +1,9 @@
 package kyutae.codetest.kcs.service;
 
-import kyutae.codetest.kcs.controller.dto.TopStorCountReqDto;
-import kyutae.codetest.kcs.controller.dto.TopStorCountResDto;
-import kyutae.codetest.kcs.controller.dto.TrdarRateReqDto;
-import kyutae.codetest.kcs.controller.dto.TrdarRateResDto;
+import kyutae.codetest.kcs.controller.dto.*;
+import kyutae.codetest.kcs.repository.querydsl.TrdarSalesDtlQueryRepository;
 import kyutae.codetest.kcs.repository.querydsl.TrdarStorDtlQueryRepository;
+import kyutae.codetest.kcs.repository.querydsl.dto.BestSalesDto;
 import kyutae.codetest.kcs.repository.querydsl.dto.SvcIndutyDto;
 import org.springframework.stereotype.Service;
 
@@ -14,8 +13,10 @@ import java.util.concurrent.atomic.AtomicInteger;
 @Service
 public class KcsTrdarService {
     private final TrdarStorDtlQueryRepository trdarStorDtlQueryRepository;
-    public KcsTrdarService(TrdarStorDtlQueryRepository trdarStorDtlQueryRepository) {
+    private final TrdarSalesDtlQueryRepository trdarSalesDtlQueryRepository;
+    public KcsTrdarService(TrdarStorDtlQueryRepository trdarStorDtlQueryRepository, TrdarSalesDtlQueryRepository trdarSalesDtlQueryRepository) {
         this.trdarStorDtlQueryRepository = trdarStorDtlQueryRepository;
+        this.trdarSalesDtlQueryRepository = trdarSalesDtlQueryRepository;
     }
     public TrdarRateResDto getTrdarRate(TrdarRateReqDto trdarRateReqDto) {
         SvcIndutyDto maxOpbizRtByStdrYyquCdAndTrdarCd = trdarStorDtlQueryRepository.findMaxOpbizRtByStdrYyquCdAndTrdarCd(
@@ -47,5 +48,20 @@ public class KcsTrdarService {
                         .topStorCount(svcIndutyDto)
                         .build())
                 .toList();
+    }
+
+    public BestSalesResDto getBestSales(BestSalesReqDto bestSalesReqDto) {
+        BestSalesDto bestSalesDto = trdarSalesDtlQueryRepository.findBestSalesByStdrYyquCdAndSvcIndutyCdNm(
+                bestSalesReqDto.getStdrYyquCd(),
+                bestSalesReqDto.getSvcIndutyCdNm()
+        );
+
+        if (bestSalesDto == null) {
+            throw new IllegalArgumentException("해당하는 상권이 없습니다.");
+        }
+
+        return BestSalesResDto.builder()
+                .trdarCd(bestSalesDto.getTrdarCd())
+                .build();
     }
 }
