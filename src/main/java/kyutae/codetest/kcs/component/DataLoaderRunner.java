@@ -57,11 +57,10 @@ public class DataLoaderRunner {
     public void executeTrdarFileLoader() throws IOException {
         if (!enable) return;
 
-        // 서울시 상권분석서비스(점포-상권) 데이터 로드
-//        executeTrdarFileLoader(trdarDataPath, trdarCharSet);
-
-        // 서울시 상권분석서비스(추정매출-서울시) 데이터 로드
+        // 서울시 상권분석서비스(추정매출-상권배후지) 데이터 로드
         executeSalesFileLoader(trselDataPath, trselCharSet);
+        // 서울시 상권분석서비스(점포-상권) 데이터 로드
+        executeTrdarFileLoader(trdarDataPath, trdarCharSet);
     }
 
     public void executeTrdarFileLoader(String dataPath, String charSet) throws IOException {

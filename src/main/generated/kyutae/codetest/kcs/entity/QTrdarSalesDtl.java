@@ -22,111 +22,109 @@ public class QTrdarSalesDtl extends EntityPathBase<TrdarSalesDtl> {
 
     public static final QTrdarSalesDtl trdarSalesDtl = new QTrdarSalesDtl("trdarSalesDtl");
 
-    public final NumberPath<Long> ageGroupSalesAmt10 = createNumber("ageGroupSalesAmt10", Long.class);
+    public final NumberPath<Long> ageG10SaleAmt = createNumber("ageG10SaleAmt", Long.class);
 
-    public final NumberPath<Long> ageGroupSalesAmt20 = createNumber("ageGroupSalesAmt20", Long.class);
+    public final NumberPath<Long> ageG10SaleCnt = createNumber("ageG10SaleCnt", Long.class);
 
-    public final NumberPath<Long> ageGroupSalesAmt30 = createNumber("ageGroupSalesAmt30", Long.class);
+    public final NumberPath<Long> ageG20SaleAmt = createNumber("ageG20SaleAmt", Long.class);
 
-    public final NumberPath<Long> ageGroupSalesAmt40 = createNumber("ageGroupSalesAmt40", Long.class);
+    public final NumberPath<Long> ageG20SaleCnt = createNumber("ageG20SaleCnt", Long.class);
 
-    public final NumberPath<Long> ageGroupSalesAmt50 = createNumber("ageGroupSalesAmt50", Long.class);
+    public final NumberPath<Long> ageG30SaleAmt = createNumber("ageG30SaleAmt", Long.class);
 
-    public final NumberPath<Long> ageGroupSalesAmt60 = createNumber("ageGroupSalesAmt60", Long.class);
+    public final NumberPath<Long> ageG30SaleCnt = createNumber("ageG30SaleCnt", Long.class);
 
-    public final NumberPath<Integer> ageGroupSalesCnt10 = createNumber("ageGroupSalesCnt10", Integer.class);
+    public final NumberPath<Long> ageG40SaleAmt = createNumber("ageG40SaleAmt", Long.class);
 
-    public final NumberPath<Integer> ageGroupSalesCnt20 = createNumber("ageGroupSalesCnt20", Integer.class);
+    public final NumberPath<Long> ageG40SaleCnt = createNumber("ageG40SaleCnt", Long.class);
 
-    public final NumberPath<Integer> ageGroupSalesCnt30 = createNumber("ageGroupSalesCnt30", Integer.class);
+    public final NumberPath<Long> ageG50SaleAmt = createNumber("ageG50SaleAmt", Long.class);
 
-    public final NumberPath<Integer> ageGroupSalesCnt40 = createNumber("ageGroupSalesCnt40", Integer.class);
+    public final NumberPath<Long> ageG50SaleCnt = createNumber("ageG50SaleCnt", Long.class);
 
-    public final NumberPath<Integer> ageGroupSalesCnt50 = createNumber("ageGroupSalesCnt50", Integer.class);
+    public final NumberPath<Long> ageG60UppSaleAmt = createNumber("ageG60UppSaleAmt", Long.class);
 
-    public final NumberPath<Integer> ageGroupSalesCnt60 = createNumber("ageGroupSalesCnt60", Integer.class);
+    public final NumberPath<Long> ageG60UppSaleCnt = createNumber("ageG60UppSaleCnt", Long.class);
 
-    public final NumberPath<Long> femaleSalesAmt = createNumber("femaleSalesAmt", Long.class);
+    public final NumberPath<Long> femaleSaleAmt = createNumber("femaleSaleAmt", Long.class);
 
-    public final NumberPath<Integer> femaleSalesCnt = createNumber("femaleSalesCnt", Integer.class);
+    public final NumberPath<Long> femaleSaleCnt = createNumber("femaleSaleCnt", Long.class);
 
-    public final NumberPath<Long> fridaySalesAmt = createNumber("fridaySalesAmt", Long.class);
+    public final NumberPath<Long> friSaleAmt = createNumber("friSaleAmt", Long.class);
 
-    public final NumberPath<Integer> fridaySalesCnt = createNumber("fridaySalesCnt", Integer.class);
+    public final NumberPath<Long> friSaleCnt = createNumber("friSaleCnt", Long.class);
+
+    public final NumberPath<Long> holidayAvgSaleAmt = createNumber("holidayAvgSaleAmt", Long.class);
+
+    public final NumberPath<Long> holidayAvgSaleCnt = createNumber("holidayAvgSaleCnt", Long.class);
 
     public final NumberPath<Long> id = createNumber("id", Long.class);
 
-    public final NumberPath<Long> maleSalesAmt = createNumber("maleSalesAmt", Long.class);
+    public final NumberPath<Long> maleSaleAmt = createNumber("maleSaleAmt", Long.class);
 
-    public final NumberPath<Integer> maleSalesCnt = createNumber("maleSalesCnt", Integer.class);
+    public final NumberPath<Long> maleSaleCnt = createNumber("maleSaleCnt", Long.class);
 
-    public final NumberPath<Long> mondaySalesAmt = createNumber("mondaySalesAmt", Long.class);
+    public final NumberPath<Long> monSaleAmt = createNumber("monSaleAmt", Long.class);
 
-    public final NumberPath<Integer> mondaySalesCnt = createNumber("mondaySalesCnt", Integer.class);
+    public final NumberPath<Long> monSaleCnt = createNumber("monSaleCnt", Long.class);
 
-    public final NumberPath<Long> monthSalesAmt = createNumber("monthSalesAmt", Long.class);
+    public final NumberPath<Long> mthSaleAmt = createNumber("mthSaleAmt", Long.class);
 
-    public final NumberPath<Integer> monthSalesCnt = createNumber("monthSalesCnt", Integer.class);
+    public final NumberPath<Long> mthSaleCnt = createNumber("mthSaleCnt", Long.class);
 
-    public final NumberPath<Long> saturdaySalesAmt = createNumber("saturdaySalesAmt", Long.class);
+    public final NumberPath<Long> satSaleAmt = createNumber("satSaleAmt", Long.class);
 
-    public final NumberPath<Integer> saturdaySalesCnt = createNumber("saturdaySalesCnt", Integer.class);
-
-    public final StringPath seoulCd = createString("seoulCd");
-
-    public final StringPath seoulCdNm = createString("seoulCdNm");
+    public final NumberPath<Long> satSaleCnt = createNumber("satSaleCnt", Long.class);
 
     public final StringPath stdrYyquCd = createString("stdrYyquCd");
 
-    public final NumberPath<Long> sundaySalesAmt = createNumber("sundaySalesAmt", Long.class);
+    public final NumberPath<Long> sunSaleAmt = createNumber("sunSaleAmt", Long.class);
 
-    public final NumberPath<Integer> sundaySalesCnt = createNumber("sundaySalesCnt", Integer.class);
+    public final NumberPath<Long> sunSaleCnt = createNumber("sunSaleCnt", Long.class);
 
     public final QSvcIndutyMst svcInduty;
 
-    public final NumberPath<Long> thursdaySalesAmt = createNumber("thursdaySalesAmt", Long.class);
+    public final NumberPath<Long> thuSaleAmt = createNumber("thuSaleAmt", Long.class);
 
-    public final NumberPath<Integer> thursdaySalesCnt = createNumber("thursdaySalesCnt", Integer.class);
+    public final NumberPath<Long> thuSaleCnt = createNumber("thuSaleCnt", Long.class);
 
-    public final NumberPath<Long> timeSalesAmt0006 = createNumber("timeSalesAmt0006", Long.class);
+    public final NumberPath<Long> tmzon00SaleAmt = createNumber("tmzon00SaleAmt", Long.class);
 
-    public final NumberPath<Long> timeSalesAmt0611 = createNumber("timeSalesAmt0611", Long.class);
+    public final NumberPath<Long> tmzon00SaleCnt = createNumber("tmzon00SaleCnt", Long.class);
 
-    public final NumberPath<Long> timeSalesAmt1114 = createNumber("timeSalesAmt1114", Long.class);
+    public final NumberPath<Long> tmzon06SaleAmt = createNumber("tmzon06SaleAmt", Long.class);
 
-    public final NumberPath<Long> timeSalesAmt1417 = createNumber("timeSalesAmt1417", Long.class);
+    public final NumberPath<Long> tmzon06SaleCnt = createNumber("tmzon06SaleCnt", Long.class);
 
-    public final NumberPath<Long> timeSalesAmt1721 = createNumber("timeSalesAmt1721", Long.class);
+    public final NumberPath<Long> tmzon11SaleAmt = createNumber("tmzon11SaleAmt", Long.class);
 
-    public final NumberPath<Long> timeSalesAmt2124 = createNumber("timeSalesAmt2124", Long.class);
+    public final NumberPath<Long> tmzon11SaleCnt = createNumber("tmzon11SaleCnt", Long.class);
 
-    public final NumberPath<Integer> timeSalesCnt0006 = createNumber("timeSalesCnt0006", Integer.class);
+    public final NumberPath<Long> tmzon14SaleAmt = createNumber("tmzon14SaleAmt", Long.class);
 
-    public final NumberPath<Integer> timeSalesCnt0611 = createNumber("timeSalesCnt0611", Integer.class);
+    public final NumberPath<Long> tmzon14SaleCnt = createNumber("tmzon14SaleCnt", Long.class);
 
-    public final NumberPath<Integer> timeSalesCnt1114 = createNumber("timeSalesCnt1114", Integer.class);
+    public final NumberPath<Long> tmzon17SaleAmt = createNumber("tmzon17SaleAmt", Long.class);
 
-    public final NumberPath<Integer> timeSalesCnt1417 = createNumber("timeSalesCnt1417", Integer.class);
+    public final NumberPath<Long> tmzon17SaleCnt = createNumber("tmzon17SaleCnt", Long.class);
 
-    public final NumberPath<Integer> timeSalesCnt1721 = createNumber("timeSalesCnt1721", Integer.class);
+    public final NumberPath<Long> tmzon21SaleAmt = createNumber("tmzon21SaleAmt", Long.class);
 
-    public final NumberPath<Integer> timeSalesCnt2124 = createNumber("timeSalesCnt2124", Integer.class);
+    public final NumberPath<Long> tmzon21SaleCnt = createNumber("tmzon21SaleCnt", Long.class);
 
-    public final NumberPath<Long> tuesdaySalesAmt = createNumber("tuesdaySalesAmt", Long.class);
+    public final QTrdarMst trdar;
 
-    public final NumberPath<Integer> tuesdaySalesCnt = createNumber("tuesdaySalesCnt", Integer.class);
+    public final NumberPath<Long> tueSaleAmt = createNumber("tueSaleAmt", Long.class);
 
-    public final NumberPath<Long> wednesdaySalesAmt = createNumber("wednesdaySalesAmt", Long.class);
+    public final NumberPath<Long> tueSaleCnt = createNumber("tueSaleCnt", Long.class);
 
-    public final NumberPath<Integer> wednesdaySalesCnt = createNumber("wednesdaySalesCnt", Integer.class);
+    public final NumberPath<Long> wedSaleAmt = createNumber("wedSaleAmt", Long.class);
 
-    public final NumberPath<Long> weekdaySalesAmt = createNumber("weekdaySalesAmt", Long.class);
+    public final NumberPath<Long> wedSaleCnt = createNumber("wedSaleCnt", Long.class);
 
-    public final NumberPath<Integer> weekdaySalesCnt = createNumber("weekdaySalesCnt", Integer.class);
+    public final NumberPath<Long> weekdayAvgSaleAmt = createNumber("weekdayAvgSaleAmt", Long.class);
 
-    public final NumberPath<Long> weekendSalesAmt = createNumber("weekendSalesAmt", Long.class);
-
-    public final NumberPath<Integer> weekendSalesCnt = createNumber("weekendSalesCnt", Integer.class);
+    public final NumberPath<Long> weekdayAvgSaleCnt = createNumber("weekdayAvgSaleCnt", Long.class);
 
     public QTrdarSalesDtl(String variable) {
         this(TrdarSalesDtl.class, forVariable(variable), INITS);
@@ -147,6 +145,7 @@ public class QTrdarSalesDtl extends EntityPathBase<TrdarSalesDtl> {
     public QTrdarSalesDtl(Class<? extends TrdarSalesDtl> type, PathMetadata metadata, PathInits inits) {
         super(type, metadata, inits);
         this.svcInduty = inits.isInitialized("svcInduty") ? new QSvcIndutyMst(forProperty("svcInduty")) : null;
+        this.trdar = inits.isInitialized("trdar") ? new QTrdarMst(forProperty("trdar"), inits.get("trdar")) : null;
     }
 
 }
