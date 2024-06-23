@@ -1,5 +1,6 @@
 package kyutae.codetest.kcs.service;
 
+import kyutae.codetest.kcs.common.exception.KcsRuntimeException;
 import kyutae.codetest.kcs.controller.dto.*;
 import kyutae.codetest.kcs.repository.querydsl.TrdarSalesDtlQueryRepository;
 import kyutae.codetest.kcs.repository.querydsl.TrdarStorDtlQueryRepository;
@@ -28,6 +29,10 @@ public class KcsTrdarService {
                 trdarRateReqDto.getTrdarCd()
         );
 
+        if (maxOpbizRtByStdrYyquCdAndTrdarCd == null && maxClsbizRtByStdrYyquCdAndTrdarCd == null) {
+            throw new KcsRuntimeException("해당하는 상권이 없습니다.");
+        }
+
         return TrdarRateResDto.builder()
                 .topOpenRate(maxOpbizRtByStdrYyquCdAndTrdarCd)
                 .topCloseRate(maxClsbizRtByStdrYyquCdAndTrdarCd)
@@ -38,16 +43,22 @@ public class KcsTrdarService {
     public List<TopStorCountResDto> getTopStorCo(TopStorCountReqDto topStorCoReqDto) {
         AtomicInteger rank = new AtomicInteger(1);
 
-        return trdarStorDtlQueryRepository.findTopStorCoByStdrYyquCdAndTrdarCd(
-                topStorCoReqDto.getStdrYyquCd(),
-                topStorCoReqDto.getTrdarCd(),
-                topStorCoReqDto.getTopN()
-        ).stream()
+        List<TopStorCountResDto> list = trdarStorDtlQueryRepository.findTopStorCoByStdrYyquCdAndTrdarCd(
+                        topStorCoReqDto.getStdrYyquCd(),
+                        topStorCoReqDto.getTrdarCd(),
+                        topStorCoReqDto.getTopN()
+                ).stream()
                 .map(svcIndutyDto -> TopStorCountResDto.builder()
                         .rank(rank.getAndIncrement())
                         .topStorCount(svcIndutyDto)
                         .build())
                 .toList();
+
+        if (list.isEmpty()) {
+            throw new KcsRuntimeException("해당하는 상권이 없습니다.");
+        }
+
+        return list;
     }
 
     public BestSalesResDto getBestSales(BestSalesReqDto bestSalesReqDto) {
@@ -57,7 +68,7 @@ public class KcsTrdarService {
         );
 
         if (bestSalesDto == null) {
-            throw new IllegalArgumentException("해당하는 상권이 없습니다.");
+            throw new KcsRuntimeException("해당하는 상권이 없습니다.");
         }
 
         return BestSalesResDto.builder()
