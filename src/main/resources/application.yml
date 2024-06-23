@@ -10,13 +10,13 @@ spring:
   datasource:
     driver-class-name: org.h2.Driver
 #    url: jdbc:h2:mem:geeshow
-    url: jdbc:h2:~/kcs
+    url: jdbc:h2:~/kcs-kyutae
     username: sa
     password:
   jpa:
     open-in-view: false
     hibernate:
-      ddl-auto: update
+      ddl-auto: create-drop
     database-platform: org.hibernate.dialect.H2Dialect
     properties:
       hibernate:
@@ -30,7 +30,7 @@ server:
 
 kcs:
   data:
-    load-enabled: false
+    load-enabled: true
     trdar:
       path: "classpath:data/trdar/*.csv"
       charset: EUC-KR

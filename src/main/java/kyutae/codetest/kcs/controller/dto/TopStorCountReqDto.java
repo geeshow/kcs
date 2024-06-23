@@ -16,11 +16,11 @@ import lombok.NoArgsConstructor;
 @Builder
 public class TopStorCountReqDto {
     @Size(min = 5, max = 5)
-    @Schema(description = "기준년분기")
+    @Schema(description = "기준년분기", example = "20231")
     private String stdrYyquCd;
 
     @Size(min = 7, max = 7)
-    @Schema(description = "상권코드")
+    @Schema(description = "상권코드", example = "3001491")
     private String trdarCd;
 
     @Max(100)

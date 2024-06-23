@@ -61,7 +61,7 @@ public class ImportSalesService {
 
         int dashes = progress / 2;
         int spaces = 50 - dashes;
-        String progressBar = "[" + String.format("%02d", progress) + "%]" + "-".repeat(dashes) + " ".repeat(spaces);
+        String progressBar = "[" + String.format("%02d", progress) + "%]" + "-".repeat(dashes) + " ".repeat(spaces) + " " + progressCount + "/" + allCount;
         System.out.print("\r" + progressBar);
     }
 
