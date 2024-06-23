@@ -4,7 +4,15 @@ import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
+@Getter
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
 @Entity
 @Table(name = "TRDAR_SE")
 public class TrdarSeMst {
@@ -14,13 +22,4 @@ public class TrdarSeMst {
 
     @Column(name = "TRDAR_SE_CD_NM", length = 50, nullable = false)
     private String trdarSeCdNm;
-
-    public TrdarSeMst() {
-
-    }
-
-    public TrdarSeMst(String trdarSeCd, String trdarSeCdNm) {
-        this.trdarSeCd = trdarSeCd;
-        this.trdarSeCdNm = trdarSeCdNm;
-    }
 }

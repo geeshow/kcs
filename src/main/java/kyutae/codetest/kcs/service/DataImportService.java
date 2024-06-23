@@ -64,10 +64,15 @@ public class DataImportService {
         String progressBar = "[" + String.format("%02d", progress) + "%]" + "-".repeat(dashes) + " ".repeat(spaces);
         System.out.print("\r" + progressBar);
     }
+
     private void processTrdarSeMst(Map<String, String> record, Map<String, TrdarSeMst> trdarSeMap) {
         String trdarSeCd = record.get("상권_구분_코드");
         if (!trdarSeMap.containsKey(trdarSeCd)) {
-            TrdarSeMst trdarSeMst = new TrdarSeMst(trdarSeCd, record.get("상권_구분_코드_명"));
+            TrdarSeMst trdarSeMst = TrdarSeMst.builder()
+                .trdarSeCd(trdarSeCd)
+                .trdarSeCdNm(record.get("상권_구분_코드_명"))
+                .build();
+
             trdarSeMap.put(trdarSeCd, trdarSeMstRepository.save(trdarSeMst));
         }
     }
@@ -75,7 +80,12 @@ public class DataImportService {
     private void processTrdarMst(Map<String, String> record, Map<String, TrdarMst> trdarMap, Map<String, TrdarSeMst> trdarSeMap) {
         String trdarCd = record.get("상권_코드");
         if (!trdarMap.containsKey(trdarCd)) {
-            TrdarMst trdarMst = new TrdarMst(trdarCd, record.get("상권_코드_명"), trdarSeMap.get(record.get("상권_구분_코드")));
+            TrdarMst trdarMst = TrdarMst.builder()
+                .trdarCd(trdarCd)
+                .trdarCdNm(record.get("상권_코드_명"))
+                .trdarSe(trdarSeMap.get(record.get("상권_구분_코드")))
+                .build();
+
             trdarMap.put(trdarCd, trdarMstRepository.save(trdarMst));
         }
     }
@@ -83,25 +93,29 @@ public class DataImportService {
     private void processSvcIndutyMst(Map<String, String> record, Map<String, SvcIndutyMst> svcIndutyMap) {
         String svcIndutyCd = record.get("서비스_업종_코드");
         if (!svcIndutyMap.containsKey(svcIndutyCd)) {
-            SvcIndutyMst svcIndutyMst = new SvcIndutyMst(svcIndutyCd, record.get("서비스_업종_코드_명"));
+            SvcIndutyMst svcIndutyMst = SvcIndutyMst.builder()
+                .svcIndutyCd(svcIndutyCd)
+                .svcIndutyCdNm(record.get("서비스_업종_코드_명"))
+                .build();
+
             svcIndutyMap.put(svcIndutyCd, svcIndutyMstRepository.save(svcIndutyMst));
         }
     }
 
     private void processTrdarStorDtl(Map<String, String> record, Map<String, TrdarMst> trdarMap, Map<String, SvcIndutyMst> svcIndutyMap) {
-        TrdarStorDtl trdarStorDtl = new TrdarStorDtl(
-                null,
-                record.get("기준_년분기_코드"),
-                trdarMap.get(record.get("상권_코드")),
-                svcIndutyMap.get(record.get("서비스_업종_코드")),
-                Integer.parseInt(record.get("점포_수")),
-                Integer.parseInt(record.get("유사_업종_점포_수")),
-                Integer.parseInt(record.get("개업_율")),
-                Integer.parseInt(record.get("개업_점포_수")),
-                Integer.parseInt(record.get("폐업_률")),
-                Integer.parseInt(record.get("폐업_점포_수")),
-                Integer.parseInt(record.get("프랜차이즈_점포_수"))
-        );
+        TrdarStorDtl trdarStorDtl = TrdarStorDtl.builder()
+            .stdrYyquCd(record.get("기준_년분기_코드"))
+            .trdar(trdarMap.get(record.get("상권_코드")))
+            .svcInduty(svcIndutyMap.get(record.get("서비스_업종_코드")))
+            .storCo(Integer.parseInt(record.get("점포_수")))
+            .similrIndutyStorCo(Integer.parseInt(record.get("유사_업종_점포_수")))
+            .opbizRt(Integer.parseInt(record.get("개업_율")))
+            .opbizStorCo(Integer.parseInt(record.get("개업_점포_수")))
+            .clsbizRt(Integer.parseInt(record.get("폐업_률")))
+            .clsbizStorCo(Integer.parseInt(record.get("폐업_점포_수")))
+            .frcStorCo(Integer.parseInt(record.get("프랜차이즈_점포_수")))
+            .build();
+
         trdarStorDtlRepository.save(trdarStorDtl);
     }
 }

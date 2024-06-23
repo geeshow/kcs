@@ -1,7 +1,15 @@
 package kyutae.codetest.kcs.entity;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
+@Getter
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
 @Entity
 @Table(name = "TRDAR_STOR_DTL")
 public class TrdarStorDtl {
@@ -41,22 +49,4 @@ public class TrdarStorDtl {
 
     @Column(name = "FRC_STOR_CO")
     private Integer frcStorCo;
-
-    public TrdarStorDtl() {
-
-    }
-
-    public TrdarStorDtl(Long id, String stdrYyquCd, TrdarMst trdar, SvcIndutyMst svcInduty, Integer storCo, Integer similrIndutyStorCo, Integer opbizRt, Integer opbizStorCo, Integer clsbizRt, Integer clsbizStorCo, Integer frcStorCo) {
-        this.id = id;
-        this.stdrYyquCd = stdrYyquCd;
-        this.trdar = trdar;
-        this.svcInduty = svcInduty;
-        this.storCo = storCo;
-        this.similrIndutyStorCo = similrIndutyStorCo;
-        this.opbizRt = opbizRt;
-        this.opbizStorCo = opbizStorCo;
-        this.clsbizRt = clsbizRt;
-        this.clsbizStorCo = clsbizStorCo;
-        this.frcStorCo = frcStorCo;
-    }
 }

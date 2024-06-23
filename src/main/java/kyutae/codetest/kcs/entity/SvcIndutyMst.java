@@ -4,7 +4,15 @@ import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
+@Getter
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
 @Entity
 @Table(name = "SVC_INDUTY_CD")
 public class SvcIndutyMst {
@@ -14,14 +22,4 @@ public class SvcIndutyMst {
 
     @Column(name = "SVC_INDUTY_CD_NM", length = 100, nullable = false)
     private String svcIndutyCdNm;
-
-    public SvcIndutyMst() {
-
-    }
-
-    public SvcIndutyMst(String svcIndutyCd, String svcIndutyCdNm) {
-        this.svcIndutyCd = svcIndutyCd;
-        this.svcIndutyCdNm = svcIndutyCdNm;
-    }
-
 }
