@@ -6,10 +6,13 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import jakarta.validation.Valid;
 import kyutae.codetest.kcs.controller.dto.*;
+import kyutae.codetest.kcs.repository.querydsl.dto.SvcIndutyDto;
 import kyutae.codetest.kcs.service.KcsTrdarService;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/kcs/api")
@@ -30,12 +33,12 @@ public class KcsTrdarController {
     }
 
     @PostMapping("/top-stor-count")
-    @Operation(summary = "가장 많은 점포수를 가진 5가지 업종 조회", description = "기준년분기와 상권코드를 입력받아 가장 많은 점포수를 가진 5가지 업종을 조회합니다.")
+    @Operation(summary = "가장 많은 점포수를 가진 업종 목록 조회(기본값 5건)", description = "기준년분기와 상권코드를 입력받아 가장 많은 점포수를 가진 업종 목록을 조회합니다.(기본값 5건)")
     @ApiResponse(responseCode = "200", description = "업종 조회",
             content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE, schema = @Schema(implementation = TopStorCountResDto.class)))
-    public ResponseEntity<TopStorCountResDto> getTopStorCount(@Valid @RequestBody TopStorCountReqDto topStorCountReqDto) {
-        TopStorCountResDto response = new TopStorCountResDto("3001491", "서비스업종");
-        return ResponseEntity.ok(response);
+    public ResponseEntity<List<TopStorCountResDto>> getTopStorCount(@Valid @RequestBody TopStorCountReqDto topStorCountReqDto) {
+        List<TopStorCountResDto> topStorCo = kcsTrdarService.getTopStorCo(topStorCountReqDto);
+        return ResponseEntity.ok(topStorCo);
     }
 
     @PostMapping("/best-sales")
