@@ -14,6 +14,4 @@ import lombok.NoArgsConstructor;
 public class BestSalesResDto {
     @Schema(description = "상권코드")
     private String trdarCd;
-    @Schema(description = "상권명")
-    private String trdarCdNm;
 }

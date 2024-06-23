@@ -6,6 +6,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.io.TempDir;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
@@ -34,10 +35,10 @@ class CsvFileLoaderTest {
         String csvContent = "\"기준_년분기_코드\",\"상권_구분_코드\",\"상권_구분_코드_명\",\"상권_코드\",\"상권_코드_명\",\"서비스_업종_코드\",\"서비스_업종_코드_명\",\"점포_수\",\"유사_업종_점포_수\",\"개업_율\",\"개업_점포_수\",\"폐업_률\",\"폐업_점포_수\",\"프랜차이즈_점포_수\"\n" +
                 "\"20231\",\"U\",\"관광특구\",\"3001491\",\"이태원 관광특구\",\"CS100001\",\"한식음식점\",\"165\",\"171\",\"4\",\"6\",\"4\",\"7\",\"6\"\n" +
                 "\"20231\",\"U\",\"관광특구\",\"3001491\",\"이태원 관광특구\",\"CS100002\",\"중식음식점\",\"18\",\"18\",\"6\",\"1\",\"6\",\"1\",\"0\"";
-        File tempFile = createTempFile(csvContent);
+        FileInputStream tempFile = createTempFile(csvContent);
 
         // When
-        List<LoaderTrdarDto> records = csvFileLoader.loadFile(tempFile.getAbsolutePath(), LoaderTrdarDto.class);
+        List<LoaderTrdarDto> records = csvFileLoader.loadFile(tempFile, LoaderTrdarDto.class);
 
         // Then
         assertEquals(2, records.size());
@@ -57,10 +58,10 @@ class CsvFileLoaderTest {
         String csvContent = "\"기준_년분기_코드\",\"상권_구분_코드\",\"상권_구분_코드_명\",\"상권_코드\",\"상권_코드_명\",\"서비스_업종_코드\",\"서비스_업종_코드_명\",\"점포_수\",\"유사_업종_점포_수\",\"개업_율\",\"개업_점포_수\",\"폐업_률\",\"폐업_점포_수\",\"프랜차이즈_점포_수\"\n" +
                 "\"20231\",\"U\",\"관광특구\",\"3001491\",\"이태원 관광특구\",\"CS100001\",\"한식음식점\",\"165\",\"171\",\"4\",\"6\",\"4\",\"7\",\"6\"\n" +
                 "\"20231\",\"U\",\"관광특구\",\"3001491\",\"이태원 관광특구\",\"CS100002\",\"중식음식점\",\"18\",\"18\",\"6\",\"1\",\"6\",\"1\",\"0\"";
-        File tempFile = createTempFileAsEucKr(csvContent);
+        FileInputStream tempFile = createTempFileAsEucKr(csvContent);
 
         // When
-        List<LoaderTrdarDto> records = csvFileLoader.loadFile(tempFile.getAbsolutePath(), euckr, LoaderTrdarDto.class);
+        List<LoaderTrdarDto> records = csvFileLoader.loadFile(tempFile, euckr, LoaderTrdarDto.class);
 
         // Then
         assertEquals(2, records.size());
@@ -73,25 +74,16 @@ class CsvFileLoaderTest {
         assertEquals("중식음식점", records.get(1).getSvcIndutyCdNm());
     }
 
-    @Test
-    void loadFile_WithNonExistentFile_ShouldThrowException() {
-        // Given
-        String nonExistentFilePath = tempDir.resolve("nonexistent.csv").toString();
-
-        // When & Then
-        assertThrows(Exception.class, () -> csvFileLoader.loadFile(nonExistentFilePath, LoaderTrdarDto.class));
-    }
-
-    private File createTempFile(String content) throws IOException {
+    private FileInputStream createTempFile(String content) throws IOException {
         File tempFile = File.createTempFile("test", ".csv", tempDir.toFile());
         Files.write(tempFile.toPath(), content.getBytes(StandardCharsets.UTF_8));
-        return tempFile;
+        return new FileInputStream(tempFile);
     }
 
-    private File createTempFileAsEucKr(String content) throws IOException {
+    private FileInputStream createTempFileAsEucKr(String content) throws IOException {
         Charset euckr = Charset.forName("EUC-KR");
         File tempFile = File.createTempFile("test", ".csv", tempDir.toFile());
         Files.write(tempFile.toPath(), content.getBytes(euckr));
-        return tempFile;
+        return new FileInputStream(tempFile);
     }
 }
