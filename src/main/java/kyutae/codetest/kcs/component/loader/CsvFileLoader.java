@@ -6,10 +6,7 @@ import org.apache.commons.csv.CSVParser;
 import org.apache.commons.csv.CSVRecord;
 import org.springframework.stereotype.Component;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.InputStreamReader;
+import java.io.*;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
@@ -19,23 +16,22 @@ import java.util.List;
 public class CsvFileLoader implements FileLoader {
 
     @Override
-    public <T extends LoaderInterface> List<T> loadFile(String filePath, Class<T> clazz) throws Exception {
-        return loadFile(filePath, StandardCharsets.UTF_8, clazz);
+    public <T extends LoaderInterface> List<T> loadFile(InputStream inputStream, Class<T> clazz) throws Exception {
+        return loadFile(inputStream, StandardCharsets.UTF_8, clazz);
     }
     @Override
-    public <T extends LoaderInterface> List<T> loadFile(String filePath, Charset charset, Class<T> clazz) throws Exception {
-        File file = new File(filePath);
+    public <T extends LoaderInterface> List<T> loadFile(InputStream inputStream, Charset charset, Class<T> clazz) throws Exception {
+
         List<T> allRecords = new ArrayList<>();
 
         // try-with-resources 구문을 사용하여 자원을 자동으로 해제합니다.
         try (
-            FileInputStream fileInputStream = new FileInputStream(file);
-            BufferedReader reader = new BufferedReader(new InputStreamReader(fileInputStream, charset));
-            CSVParser csvParser = CSVFormat.DEFAULT.builder()
-                .setHeader()
-                .setSkipHeaderRecord(true)
-                .build()
-                .parse(reader)) {
+                BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream, charset));
+                CSVParser csvParser = CSVFormat.DEFAULT.builder()
+                        .setHeader()
+                        .setSkipHeaderRecord(true)
+                        .build()
+                        .parse(reader)) {
 
             for (CSVRecord record : csvParser) {
                 T dto = clazz.getDeclaredConstructor().newInstance();
@@ -43,7 +39,7 @@ public class CsvFileLoader implements FileLoader {
                 allRecords.add(dto);
             }
         }
-        System.out.println("Importing file: " + filePath + " with " + allRecords.size() + " records.");
+        System.out.println("Total: " + allRecords.size() + " records.");
         return allRecords;
     }
 }

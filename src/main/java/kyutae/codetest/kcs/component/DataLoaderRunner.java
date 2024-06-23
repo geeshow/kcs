@@ -28,7 +28,7 @@ public class DataLoaderRunner {
     private final FileLoader fileLoader;
     private String trdarDataPath;
     private String trdarCharSet;
-    private String trselDataPath;
+    private String saleDataPath;
     private String trselCharSet;
     private Boolean enable;
 
@@ -38,7 +38,7 @@ public class DataLoaderRunner {
             FileLoader fileLoader,
             @Value("${kcs.data.trdar.path}")String trdarDataPath,
             @Value("${kcs.data.trdar.charset}")String trdarCharSet,
-            @Value("${kcs.data.trsel.path}")String trselDataPath,
+            @Value("${kcs.data.trsel.path}")String saleDataPath,
             @Value("${kcs.data.trsel.charset}")String trselCharSet,
             @Value("${kcs.data.load-enabled}")Boolean enable
     ) {
@@ -47,7 +47,7 @@ public class DataLoaderRunner {
         this.fileLoader = fileLoader;
         this.trdarDataPath = trdarDataPath;
         this.trdarCharSet = trdarCharSet;
-        this.trselDataPath = trselDataPath;
+        this.saleDataPath = saleDataPath;
         this.trselCharSet = trselCharSet;
         this.enable = enable;
     }
@@ -63,7 +63,8 @@ public class DataLoaderRunner {
         System.out.println("Data load를 시작합니다.");
 
         // 서울시 상권분석서비스(추정매출-상권배후지) 데이터 로드
-        executeSalesFileLoader(trselDataPath, trselCharSet);
+        executeSalesFileLoader(saleDataPath, trselCharSet);
+
         // 서울시 상권분석서비스(점포-상권) 데이터 로드
         executeTrdarFileLoader(trdarDataPath, trdarCharSet);
     }
@@ -81,10 +82,12 @@ public class DataLoaderRunner {
     private <T extends LoaderInterface> Stream<List<T>> getListOfResource(String dataPath, String charSet, Class<T> clazz) throws IOException {
         ResourcePatternResolver resolver = new PathMatchingResourcePatternResolver();
         Resource[] resources = resolver.getResources(dataPath);
+
         return Arrays.stream(resources).map(resource -> {
             try {
+                System.out.println(resource.getFilename()+ " 파일을 로드합니다.");
                 return fileLoader.loadFile(
-                        resource.getFile().getPath(),
+                        resource.getInputStream(),
                         Charset.forName(charSet),
                         clazz
                 );
