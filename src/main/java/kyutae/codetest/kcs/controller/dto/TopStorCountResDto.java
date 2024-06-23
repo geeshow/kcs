@@ -11,9 +11,10 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class TrdarRateResDto {
-    @Schema(description = "개업률이 가장 높은 서비스 업종")
-    private SvcIndutyDto topOpenRate;
-    @Schema(description = "폐업률이 가장 높은 서비스 업종")
-    private SvcIndutyDto topCloseRate;
+public class TopStorCountResDto {
+    @Schema(description = "순위")
+    private int rank;
+
+    @Schema(description = "가장 많은 점포수를 가진 업종 리스트")
+    private SvcIndutyDto topStorCount;
 }
