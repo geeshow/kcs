@@ -6,6 +6,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import jakarta.validation.Valid;
 import kyutae.codetest.kcs.controller.dto.*;
+import kyutae.codetest.kcs.service.KcsTrdarService;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -13,12 +14,18 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping("/kcs/api")
 public class KcsTrdarController {
+    private final KcsTrdarService kcsTrdarService;
+
+    public KcsTrdarController(KcsTrdarService kcsTrdarService) {
+        this.kcsTrdarService = kcsTrdarService;
+    }
+
     @PostMapping("/rate")
     @Operation(summary = "개업률 및 폐업률이 가장 높은 서비스 업종 조회", description = "기준년분기와 상권코드를 입력받아 개업률이 가장 높은 서비스 업종과 폐업률이 가장 높은 서비스 업종을 조회합니다.")
     @ApiResponse(responseCode = "200", description = "업종 조회",
             content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE, schema = @Schema(implementation = TrdarRateResDto.class)))
     public ResponseEntity<TrdarRateResDto> getTrdarRate(@Valid @RequestBody TrdarRateReqDto trdarRateReqDto) {
-        TrdarRateResDto response = new TrdarRateResDto("3001491", "서비스업종");
+        TrdarRateResDto response = kcsTrdarService.getTrdarRate(trdarRateReqDto);
         return ResponseEntity.ok(response);
     }
 
