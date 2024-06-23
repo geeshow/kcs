@@ -10,7 +10,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class BestStorCountResDto {
+public class TopStorCountResDto {
     @Schema(description = "상권코드")
     private String trdarCd;
     @Schema(description = "상권명")

@@ -29,12 +29,12 @@ public class KcsTrdarController {
         return ResponseEntity.ok(response);
     }
 
-    @PostMapping("/best-stor-count")
+    @PostMapping("/top-stor-count")
     @Operation(summary = "가장 많은 점포수를 가진 5가지 업종 조회", description = "기준년분기와 상권코드를 입력받아 가장 많은 점포수를 가진 5가지 업종을 조회합니다.")
     @ApiResponse(responseCode = "200", description = "업종 조회",
-            content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE, schema = @Schema(implementation = BestStorCountResDto.class)))
-    public ResponseEntity<BestStorCountResDto> getBestStorCount(@Valid @RequestBody BestStorCountReqDto bestStorCountReqDto) {
-        BestStorCountResDto response = new BestStorCountResDto("3001491", "서비스업종");
+            content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE, schema = @Schema(implementation = TopStorCountResDto.class)))
+    public ResponseEntity<TopStorCountResDto> getTopStorCount(@Valid @RequestBody TopStorCountReqDto topStorCountReqDto) {
+        TopStorCountResDto response = new TopStorCountResDto("3001491", "서비스업종");
         return ResponseEntity.ok(response);
     }
 
@@ -42,7 +42,7 @@ public class KcsTrdarController {
     @Operation(summary = "당월 매출 금액이 가장 높은 상권 조회", description = "기준년분기와 업종명을 입력받아 당월 매출 금액이 가장 높은 상권을 조회합니다.")
     @ApiResponse(responseCode = "200", description = "상권 조회",
             content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE, schema = @Schema(implementation = BestSalesResDto.class)))
-    public ResponseEntity<BestSalesResDto> getBestSales(@Valid @RequestBody BestSalesReqDto bestStorCountReqDto) {
+    public ResponseEntity<BestSalesResDto> getBestSales(@Valid @RequestBody BestSalesReqDto bestSalesReqDto) {
         BestSalesResDto response = new BestSalesResDto("3001491", "서비스업종");
         return ResponseEntity.ok(response);
     }

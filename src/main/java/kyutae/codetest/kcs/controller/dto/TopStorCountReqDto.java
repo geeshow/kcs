@@ -11,7 +11,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class BestStorCountReqDto {
+public class TopStorCountReqDto {
     @Size(min = 5, max = 5)
     @Schema(description = "기준년분기", example = "20231")
     private String stdrYyquCd;
