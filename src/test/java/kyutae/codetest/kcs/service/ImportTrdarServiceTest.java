@@ -16,15 +16,13 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
-class DataImportServiceTest {
+class ImportTrdarServiceTest {
 
     @Mock
     private SvcIndutyMstRepository svcIndutyMstRepository;
@@ -36,7 +34,7 @@ class DataImportServiceTest {
     private TrdarStorDtlRepository trdarStorDtlRepository;
 
     @InjectMocks
-    private DataImportService dataImportService;
+    private ImportTrdarService importTrdarService;
 
     @Test
     void importData_ShouldSaveRecordsSuccessfully() {
@@ -80,7 +78,7 @@ class DataImportServiceTest {
         when(svcIndutyMstRepository.save(any(SvcIndutyMst.class))).thenReturn(new SvcIndutyMst());
 
         // When
-        dataImportService.importData(records);
+        importTrdarService.importData(records);
 
         // Then
         verify(trdarSeMstRepository, times(2)).save(any(TrdarSeMst.class));

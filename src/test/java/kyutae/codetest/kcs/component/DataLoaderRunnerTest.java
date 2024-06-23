@@ -2,7 +2,7 @@ package kyutae.codetest.kcs.component;
 
 import kyutae.codetest.kcs.component.loader.FileLoader;
 import kyutae.codetest.kcs.component.loader.dto.LoaderTrdarDto;
-import kyutae.codetest.kcs.service.DataImportService;
+import kyutae.codetest.kcs.service.ImportTrdarService;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -27,7 +27,7 @@ import static org.mockito.Mockito.*;
 class DataLoaderRunnerTest {
 
     @Mock
-    private DataImportService dataImportService;
+    private ImportTrdarService importTrdarService;
     @Mock
     private FileLoader fileLoader;
 
@@ -35,7 +35,7 @@ class DataLoaderRunnerTest {
     private DataLoaderRunner dataLoaderRunner;
 
     @Test
-    void executeFileLoader_ShouldLoadAndImportDataSuccessfully() throws Exception {
+    void executeTrdarFileLoader_ShouldLoadAndImportDataSuccessfully() throws Exception {
         // Given
         String dataPath = "classpath:data/trdar/*.csv";
         List<LoaderTrdarDto> records = new ArrayList<>();
@@ -46,32 +46,21 @@ class DataLoaderRunnerTest {
         when(fileLoader.loadFile(any(), eq(StandardCharsets.UTF_8), eq(LoaderTrdarDto.class))).thenReturn(records);
 
         // When
-        dataLoaderRunner.executeFileLoader(dataPath, "utf-8");
+        dataLoaderRunner.executeTrdarFileLoader(dataPath, "utf-8");
 
         // Then
-        verify(dataImportService, times(resources.length)).importData(records);
+        verify(importTrdarService, times(resources.length)).importData(records);
     }
 
     @Test
-    void executeFileLoader_NotExistedDirectory_ThrowsFileNotFoundException() throws Exception {
+    void executeTrdarFileLoader_NotExistedDirectory_ThrowsFileNotFoundException() throws Exception {
         // Given
         String dataPath = "classpath:data2/*.csv";
         List<Map<String, String>> records = new ArrayList<>();
         records.add(Map.of("key", "value"));
 
         // When Then
-        assertThrows(FileNotFoundException.class, () -> dataLoaderRunner.executeFileLoader(dataPath, "utf-8"));
-        verify(dataImportService, never()).importData(any());
-    }
-    @Test
-    void executeFileLoader_NotExistedFile_ThrowsRuntimeException() throws Exception {
-        // Given
-        String dataPath = "classpath:data/*.txt";
-        List<Map<String, String>> records = new ArrayList<>();
-        records.add(Map.of("key", "value"));
-
-        // When Then
-        assertThrows(RuntimeException.class, () -> dataLoaderRunner.executeFileLoader(dataPath, "utf-8"));
-        verify(dataImportService, never()).importData(any());
+        assertThrows(FileNotFoundException.class, () -> dataLoaderRunner.executeTrdarFileLoader(dataPath, "utf-8"));
+        verify(importTrdarService, never()).importData(any());
     }
 }

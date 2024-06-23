@@ -1,8 +1,10 @@
 package kyutae.codetest.kcs.component;
 
 import kyutae.codetest.kcs.component.loader.FileLoader;
+import kyutae.codetest.kcs.component.loader.dto.LoaderInterface;
+import kyutae.codetest.kcs.component.loader.dto.LoaderSalesDto;
 import kyutae.codetest.kcs.component.loader.dto.LoaderTrdarDto;
-import kyutae.codetest.kcs.service.DataImportService;
+import kyutae.codetest.kcs.service.ImportTrdarService;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
 import org.springframework.context.event.EventListener;
@@ -10,15 +12,17 @@ import org.springframework.core.io.Resource;
 import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
 import org.springframework.core.io.support.ResourcePatternResolver;
 import org.springframework.stereotype.Component;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.io.IOException;
 import java.nio.charset.Charset;
+import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Stream;
 
 @Component
 public class DataLoaderRunner {
 
-    private final DataImportService dataImportService;
+    private final ImportTrdarService importTrdarService;
     private final FileLoader fileLoader;
     private String trdarDataPath;
     private String trdarCharSet;
@@ -27,7 +31,7 @@ public class DataLoaderRunner {
     private Boolean enable;
 
     public DataLoaderRunner(
-            DataImportService dataImportService,
+            ImportTrdarService importTrdarService,
             FileLoader fileLoader,
             @Value("${kcs.data.trdar.path}")String trdarDataPath,
             @Value("${kcs.data.trdar.charset}")String trdarCharSet,
@@ -35,7 +39,7 @@ public class DataLoaderRunner {
             @Value("${kcs.data.trsel.charset}")String trselCharSet,
             @Value("${kcs.data.load-enabled}")Boolean enable
     ) {
-        this.dataImportService = dataImportService;
+        this.importTrdarService = importTrdarService;
         this.fileLoader = fileLoader;
         this.trdarDataPath = trdarDataPath;
         this.trdarCharSet = trdarCharSet;
@@ -46,34 +50,40 @@ public class DataLoaderRunner {
 
 
     @EventListener(ApplicationReadyEvent.class)
-    @Transactional
-    public void executeFileLoader() throws IOException {
+    public void executeTrdarFileLoader() throws IOException {
+        if (!enable) return;
+
         // 서울시 상권분석서비스(점포-상권) 데이터 로드
-        if (enable)
-            executeFileLoader(trdarDataPath, trdarCharSet);
+        executeTrdarFileLoader(trdarDataPath, trdarCharSet);
+
         // 서울시 상권분석서비스(추정매출-서울시) 데이터 로드
-        if (enable)
-            executeFileLoader(trselDataPath, trselCharSet);
+//        executeSalesFileLoader(trselDataPath, trselCharSet);
     }
 
-    @Transactional
-    public void executeFileLoader(String dataPath, String charSet) throws IOException {
+    public void executeTrdarFileLoader(String dataPath, String charSet) throws IOException {
+        Stream<List<LoaderTrdarDto>> listOfResource = getListOfResource(dataPath, charSet, LoaderTrdarDto.class);
+        listOfResource.forEach(importTrdarService::importData);
+    }
+
+//    public void executeSalesFileLoader(String dataPath, String charSet) throws IOException {
+//        Stream<List<LoaderSalesDto>> listOfResource = getListOfResource(dataPath, charSet, LoaderSalesDto.class);
+//        listOfResource.forEach(importTrdarService::importData);
+//    }
+
+    private <T extends LoaderInterface> Stream<List<T>> getListOfResource(String dataPath, String charSet, Class<T> clazz) throws IOException {
         ResourcePatternResolver resolver = new PathMatchingResourcePatternResolver();
         Resource[] resources = resolver.getResources(dataPath);
-        Charset euckr = Charset.forName(charSet);
-
-        if (resources.length == 0) {
-            throw new RuntimeException("No files found in the data directory.");
-        }
-
-        for (Resource resource : resources) {
+        return Arrays.stream(resources).map(resource -> {
             try {
-                var allRecords = fileLoader.loadFile(resource.getFile().getPath(), euckr, LoaderTrdarDto.class);
-                dataImportService.importData(allRecords);
+                return fileLoader.loadFile(
+                        resource.getFile().getPath(),
+                        Charset.forName(charSet),
+                        clazz
+                );
             } catch (Exception e) {
                 e.printStackTrace();
-                System.err.println("Error occurred while loading file: " + resource.getFilename());
+                return null;
             }
-        }
+        });
     }
 }

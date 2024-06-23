@@ -17,14 +17,14 @@ import java.util.List;
 import java.util.Map;
 
 @Service
-public class DataImportService {
+public class ImportTrdarService {
 
     private final SvcIndutyMstRepository svcIndutyMstRepository;
     private final TrdarMstRepository trdarMstRepository;
     private final TrdarSeMstRepository trdarSeMstRepository;
     private final TrdarStorDtlRepository trdarStorDtlRepository;
 
-    public DataImportService(SvcIndutyMstRepository svcIndutyMstRepository, TrdarMstRepository trdarMstRepository, TrdarSeMstRepository trdarSeMstRepository, TrdarStorDtlRepository trdarStorDtlRepository) {
+    public ImportTrdarService(SvcIndutyMstRepository svcIndutyMstRepository, TrdarMstRepository trdarMstRepository, TrdarSeMstRepository trdarSeMstRepository, TrdarStorDtlRepository trdarStorDtlRepository) {
         this.svcIndutyMstRepository = svcIndutyMstRepository;
         this.trdarMstRepository = trdarMstRepository;
         this.trdarSeMstRepository = trdarSeMstRepository;
