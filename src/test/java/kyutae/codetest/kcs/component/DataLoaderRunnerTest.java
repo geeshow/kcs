@@ -1,6 +1,7 @@
 package kyutae.codetest.kcs.component;
 
 import kyutae.codetest.kcs.component.loader.FileLoader;
+import kyutae.codetest.kcs.component.loader.dto.LoaderTrdarDto;
 import kyutae.codetest.kcs.service.DataImportService;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -36,13 +37,13 @@ class DataLoaderRunnerTest {
     @Test
     void executeFileLoader_ShouldLoadAndImportDataSuccessfully() throws Exception {
         // Given
-        String dataPath = "classpath:data/*.csv";
-        List<Map<String, String>> records = new ArrayList<>();
-        records.add(Map.of("key", "value"));
+        String dataPath = "classpath:data/trdar/*.csv";
+        List<LoaderTrdarDto> records = new ArrayList<>();
+        records.add(new LoaderTrdarDto());
         ResourcePatternResolver resolver = new PathMatchingResourcePatternResolver();
         Resource[] resources = resolver.getResources(dataPath);
 
-        when(fileLoader.loadFile(any(), eq(StandardCharsets.UTF_8))).thenReturn(records);
+        when(fileLoader.loadFile(any(), eq(StandardCharsets.UTF_8), eq(LoaderTrdarDto.class))).thenReturn(records);
 
         // When
         dataLoaderRunner.executeFileLoader(dataPath, "utf-8");

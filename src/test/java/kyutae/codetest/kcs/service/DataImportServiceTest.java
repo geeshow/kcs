@@ -1,5 +1,6 @@
 package kyutae.codetest.kcs.service;
 
+import kyutae.codetest.kcs.component.loader.dto.LoaderTrdarDto;
 import kyutae.codetest.kcs.entity.SvcIndutyMst;
 import kyutae.codetest.kcs.entity.TrdarMst;
 import kyutae.codetest.kcs.entity.TrdarSeMst;
@@ -40,39 +41,40 @@ class DataImportServiceTest {
     @Test
     void importData_ShouldSaveRecordsSuccessfully() {
         // Given
-        List<Map<String, String>> records = new ArrayList<>();
-        Map<String, String> record1 = new HashMap<>();
-        record1.put("상권_구분_코드", "A");
-        record1.put("상권_구분_코드_명", "상권구분코드명");
-        record1.put("상권_코드", "B");
-        record1.put("상권_코드_명", "상권코드명");
-        record1.put("서비스_업종_코드", "C");
-        record1.put("서비스_업종_코드_명", "서비스업종코드명");
-        record1.put("기준_년분기_코드", "202301");
-        record1.put("점포_수", "100");
-        record1.put("유사_업종_점포_수", "50");
-        record1.put("개업_율", "10");
-        record1.put("개업_점포_수", "5");
-        record1.put("폐업_률", "20");
-        record1.put("폐업_점포_수", "10");
-        record1.put("프랜차이즈_점포_수", "30");
+        List<LoaderTrdarDto> records = new ArrayList<>();
+        LoaderTrdarDto record1 = new LoaderTrdarDto();
+        record1.setStdrYyquCd("202301");
+        record1.setTrdarSeCd("A");
+        record1.setTrdarSeCdNm("상권구분코드명");
+        record1.setTrdarCd("B");
+        record1.setTrdarCdNm("상권코드명");
+        record1.setSvcIndutyCd("C");
+        record1.setSvcIndutyCdNm("서비스업종코드명");
+        record1.setStorCo(100);
+        record1.setSimilrIndutyStorCo(50);
+        record1.setOpbizRt(10);
+        record1.setOpbizStorCo(5);
+        record1.setClsbizRt(20);
+        record1.setClsbizStorCo(10);
+        record1.setFrcStorCo(30);
         records.add(record1);
-        Map<String, String> record2 = new HashMap<>();
-        record2.put("상권_구분_코드", "A");
-        record2.put("상권_구분_코드_명", "상권구분코드명");
-        record2.put("상권_코드", "B");
-        record2.put("상권_코드_명", "상권코드명");
-        record2.put("서비스_업종_코드", "C");
-        record2.put("서비스_업종_코드_명", "서비스업종코드명");
-        record2.put("기준_년분기_코드", "202301");
-        record2.put("점포_수", "100");
-        record2.put("유사_업종_점포_수", "50");
-        record2.put("개업_율", "10");
-        record2.put("개업_점포_수", "5");
-        record2.put("폐업_률", "20");
-        record2.put("폐업_점포_수", "10");
-        record2.put("프랜차이즈_점포_수", "30");
+        LoaderTrdarDto record2 = new LoaderTrdarDto();
+        record2.setStdrYyquCd("202301");
+        record2.setTrdarSeCd("A2");
+        record2.setTrdarSeCdNm("상권구분코드명2");
+        record2.setTrdarCd("B2");
+        record2.setTrdarCdNm("상권코드명2");
+        record2.setSvcIndutyCd("C2");
+        record2.setSvcIndutyCdNm("서비스업종코드명2");
+        record2.setStorCo(200);
+        record2.setSimilrIndutyStorCo(50);
+        record2.setOpbizRt(30);
+        record2.setOpbizStorCo(9);
+        record2.setClsbizRt(20);
+        record2.setClsbizStorCo(10);
+        record2.setFrcStorCo(30);
         records.add(record2);
+
         when(trdarSeMstRepository.save(any(TrdarSeMst.class))).thenReturn(new TrdarSeMst());
         when(trdarMstRepository.save(any(TrdarMst.class))).thenReturn(new TrdarMst());
         when(svcIndutyMstRepository.save(any(SvcIndutyMst.class))).thenReturn(new SvcIndutyMst());
@@ -81,9 +83,9 @@ class DataImportServiceTest {
         dataImportService.importData(records);
 
         // Then
-        verify(trdarSeMstRepository, times(1)).save(any(TrdarSeMst.class));
-        verify(trdarMstRepository, times(1)).save(any(TrdarMst.class));
-        verify(svcIndutyMstRepository, times(1)).save(any(SvcIndutyMst.class));
+        verify(trdarSeMstRepository, times(2)).save(any(TrdarSeMst.class));
+        verify(trdarMstRepository, times(2)).save(any(TrdarMst.class));
+        verify(svcIndutyMstRepository, times(2)).save(any(SvcIndutyMst.class));
         verify(trdarStorDtlRepository, times(2)).save(any(TrdarStorDtl.class));
     }
 }

@@ -1,5 +1,6 @@
 package kyutae.codetest.kcs.component.loader;
 
+import kyutae.codetest.kcs.component.loader.dto.LoaderTrdarDto;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.io.TempDir;
@@ -30,36 +31,46 @@ class CsvFileLoaderTest {
     @Test
     void loadFile_WithDefaultCharset_ShouldLoadRecordsSuccessfully() throws Exception {
         // Given
-        String csvContent = "header1,header2\nvalue1,value2\nvalue3,value4";
+        String csvContent = "\"기준_년분기_코드\",\"상권_구분_코드\",\"상권_구분_코드_명\",\"상권_코드\",\"상권_코드_명\",\"서비스_업종_코드\",\"서비스_업종_코드_명\",\"점포_수\",\"유사_업종_점포_수\",\"개업_율\",\"개업_점포_수\",\"폐업_률\",\"폐업_점포_수\",\"프랜차이즈_점포_수\"\n" +
+                "\"20231\",\"U\",\"관광특구\",\"3001491\",\"이태원 관광특구\",\"CS100001\",\"한식음식점\",\"165\",\"171\",\"4\",\"6\",\"4\",\"7\",\"6\"\n" +
+                "\"20231\",\"U\",\"관광특구\",\"3001491\",\"이태원 관광특구\",\"CS100002\",\"중식음식점\",\"18\",\"18\",\"6\",\"1\",\"6\",\"1\",\"0\"";
         File tempFile = createTempFile(csvContent);
 
         // When
-        List<Map<String, String>> records = csvFileLoader.loadFile(tempFile.getAbsolutePath());
+        List<LoaderTrdarDto> records = csvFileLoader.loadFile(tempFile.getAbsolutePath(), LoaderTrdarDto.class);
 
         // Then
         assertEquals(2, records.size());
-        assertEquals("value1", records.get(0).get("header1"));
-        assertEquals("value2", records.get(0).get("header2"));
-        assertEquals("value3", records.get(1).get("header1"));
-        assertEquals("value4", records.get(1).get("header2"));
+        assertEquals("20231", records.get(0).getStdrYyquCd());
+        assertEquals("3001491", records.get(0).getTrdarCd());
+        assertEquals("한식음식점", records.get(0).getSvcIndutyCdNm());
+
+        assertEquals("20231", records.get(1).getStdrYyquCd());
+        assertEquals("3001491", records.get(1).getTrdarCd());
+        assertEquals("중식음식점", records.get(1).getSvcIndutyCdNm());
     }
 
     @Test
     void loadFile_WithSpecifiedCharset_ShouldLoadRecordsSuccessfully() throws Exception {
         // Given
         Charset euckr = Charset.forName("EUC-KR");
-        String csvContent = "헤더1,헤더2\n값1,값2\n값3,값4";
+        String csvContent = "\"기준_년분기_코드\",\"상권_구분_코드\",\"상권_구분_코드_명\",\"상권_코드\",\"상권_코드_명\",\"서비스_업종_코드\",\"서비스_업종_코드_명\",\"점포_수\",\"유사_업종_점포_수\",\"개업_율\",\"개업_점포_수\",\"폐업_률\",\"폐업_점포_수\",\"프랜차이즈_점포_수\"\n" +
+                "\"20231\",\"U\",\"관광특구\",\"3001491\",\"이태원 관광특구\",\"CS100001\",\"한식음식점\",\"165\",\"171\",\"4\",\"6\",\"4\",\"7\",\"6\"\n" +
+                "\"20231\",\"U\",\"관광특구\",\"3001491\",\"이태원 관광특구\",\"CS100002\",\"중식음식점\",\"18\",\"18\",\"6\",\"1\",\"6\",\"1\",\"0\"";
         File tempFile = createTempFileAsEucKr(csvContent);
 
         // When
-        List<Map<String, String>> records = csvFileLoader.loadFile(tempFile.getAbsolutePath(), euckr);
+        List<LoaderTrdarDto> records = csvFileLoader.loadFile(tempFile.getAbsolutePath(), euckr, LoaderTrdarDto.class);
 
         // Then
         assertEquals(2, records.size());
-        assertEquals("값1", records.get(0).get("헤더1"));
-        assertEquals("값2", records.get(0).get("헤더2"));
-        assertEquals("값3", records.get(1).get("헤더1"));
-        assertEquals("값4", records.get(1).get("헤더2"));
+        assertEquals("20231", records.get(0).getStdrYyquCd());
+        assertEquals("3001491", records.get(0).getTrdarCd());
+        assertEquals("한식음식점", records.get(0).getSvcIndutyCdNm());
+
+        assertEquals("20231", records.get(1).getStdrYyquCd());
+        assertEquals("3001491", records.get(1).getTrdarCd());
+        assertEquals("중식음식점", records.get(1).getSvcIndutyCdNm());
     }
 
     @Test
@@ -68,7 +79,7 @@ class CsvFileLoaderTest {
         String nonExistentFilePath = tempDir.resolve("nonexistent.csv").toString();
 
         // When & Then
-        assertThrows(Exception.class, () -> csvFileLoader.loadFile(nonExistentFilePath));
+        assertThrows(Exception.class, () -> csvFileLoader.loadFile(nonExistentFilePath, LoaderTrdarDto.class));
     }
 
     private File createTempFile(String content) throws IOException {
