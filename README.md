@@ -10,16 +10,24 @@
 - Lombok
 
 ## 프로젝트 실행 방법
-- 프로젝트를 빌드하고 실행하려면 다음 명령을 실행하십시오.
+1. 프로젝트를 클론
 ```shell
 git clone https://github.com/geeshow/kcs.git
+```
+
+2. 프로젝트 빌드
+```shell
 ./gradlew clean build
+```
+
+3. 프로젝트 실행
+```shell
 java -jar build/libs/kcs-0.0.1-SNAPSHOT.jar
 ```
 
 ## 접속 정보
 - H2 Database Console : http://localhost:8080/h2-console
-  - Database URL : jdbc:h2:~/kcs-kyutae
+  - JDBC URL : jdbc:h2:~/kcs-kyutae
 - Swagger : http://localhost:8080/swagger-ui.html
 
 ## Model 구조

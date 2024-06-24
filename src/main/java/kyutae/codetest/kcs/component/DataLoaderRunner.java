@@ -67,6 +67,8 @@ public class DataLoaderRunner {
 
         // 서울시 상권분석서비스(점포-상권) 데이터 로드
         executeTrdarFileLoader(trdarDataPath, trdarCharSet);
+
+        System.out.println("Data load가 완료되었습니다.");
     }
 
     public void executeTrdarFileLoader(String dataPath, String charSet) throws IOException {

@@ -17,7 +17,7 @@ import java.util.List;
 import java.util.Map;
 
 @Service
-public class ImportTrdarService {
+public class ImportTrdarService extends ImportService {
 
     private final SvcIndutyMstRepository svcIndutyMstRepository;
     private final TrdarMstRepository trdarMstRepository;
@@ -55,15 +55,6 @@ public class ImportTrdarService {
             e.printStackTrace();
             System.err.println("Error occurred during data import: " + e.getMessage());
         }
-    }
-
-    private void printProgress(long progressCount, long allCount) {
-        int progress = (int) ((progressCount / (double) allCount) * 100);
-
-        int dashes = progress / 2;
-        int spaces = 50 - dashes;
-        String progressBar = "[" + String.format("%02d", progress) + "%]" + "-".repeat(dashes) + " ".repeat(spaces);
-        System.out.print("\r" + progressBar);
     }
 
     private void processTrdarSeMst(LoaderTrdarDto record, Map<String, TrdarSeMst> trdarSeMap) {
