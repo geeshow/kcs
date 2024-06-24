@@ -12,7 +12,7 @@ import java.util.List;
 import java.util.Map;
 
 @Service
-public class ImportSalesService {
+public class ImportSalesService extends ImportService {
     private final TrdarSeMstRepository trdarSeMstRepository;
     private final TrdarMstRepository trdarMstRepository;
     private final SvcIndutyMstRepository svcIndutyMstRepository;
@@ -54,15 +54,6 @@ public class ImportSalesService {
             e.printStackTrace();
             System.err.println("Error occurred during data import: " + e.getMessage());
         }
-    }
-
-    private void printProgress(long progressCount, long allCount) {
-        int progress = (int) ((progressCount / (double) allCount) * 100);
-
-        int dashes = progress / 2;
-        int spaces = 50 - dashes;
-        String progressBar = "[" + String.format("%02d", progress) + "%]" + "-".repeat(dashes) + " ".repeat(spaces) + " " + progressCount + "/" + allCount;
-        System.out.print("\r" + progressBar);
     }
 
     private void processTrdarSeMst(LoaderSalesDto record, Map<String, TrdarSeMst> trdarSeMap) {
