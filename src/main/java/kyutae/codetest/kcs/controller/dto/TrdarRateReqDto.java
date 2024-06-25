@@ -13,7 +13,7 @@ import lombok.NoArgsConstructor;
 @Builder
 public class TrdarRateReqDto {
     @Size(min = 5, max = 5)
-    @Schema(description = "기준년분기", example = "20231")
+    @Schema(description = "기준년분기", example = "20221")
     private String stdrYyquCd;
 
     @Size(min = 7, max = 7)

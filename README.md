@@ -39,7 +39,9 @@ java -jar build/libs/kcs-0.0.1-SNAPSHOT.jar
 
 ![ERD](https://geeshow.github.io/images/image.png)
 
-## 1. CSV 파일 일괄 등록
+## 1. CSV 파일 일괄 처리 구현 안내
+스프링부트 실행 시 CSV 파일을 자동으로 일괄등록 합니다.
+
 > 일괄 파일 등록은 두 종류의 데이터셋을 이용합니다.
 
 개업률, 폐업률, 점포수에 대한 정보 : 
@@ -78,7 +80,7 @@ curl -X 'POST' \
   -H 'accept: application/json' \
   -H 'Content-Type: application/json' \
   -d '{
-  "stdrYyquCd": "20231",
+  "stdrYyquCd": "20221",
   "trdarCd": "3001491"
 }'
 ```
